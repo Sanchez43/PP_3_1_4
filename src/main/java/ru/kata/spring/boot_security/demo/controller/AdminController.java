@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
@@ -22,10 +23,12 @@ import java.util.Set;
 @Controller
 public class AdminController {
     private final UserService userService;
+    private final RoleService roleService;
     public static final String REDIRECT_ADMIN = "redirect:/admin";
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
 
@@ -55,7 +58,7 @@ public class AdminController {
         }
 
         for (String roleName : selectedRoles) {
-            user.addRole(userService.getRoleByName(roleName));
+            user.addRole(roleService.getRoleByName(roleName));
         }
         userService.createUser(user);
         return REDIRECT_ADMIN;
@@ -72,7 +75,7 @@ public class AdminController {
         User user = new User(name, lastName, age, username, password);
 
         for (String roleName : selectedRoles) {
-            user.addRole(userService.getRoleByName(roleName));
+            user.addRole(roleService.getRoleByName(roleName));
         }
         userService.editUser(id, user);
         return REDIRECT_ADMIN;
