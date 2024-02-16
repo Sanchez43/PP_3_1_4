@@ -13,10 +13,6 @@ public interface UserDao {
 
     void createUser(User user);
 
-    void createRole(Role role);
-
-    Role getRoleByName(String roleName);
-
     User getUserById(Long id);
 
     User getUserByUsername(String username);
